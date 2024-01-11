@@ -60,6 +60,13 @@ enum {
 
 };
 
+ //Our custom macros
+enum {
+    M_QUES = NEW_SAFE_RANGE,
+
+};
+
+
 uint16_t key_timer;
 
 // define the various layers
@@ -79,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Signs and symbols layer, from layer 0---                         ----------------------------------------------
     TD(TD_ESC_TM), KC_AT, KC_HASH, KC_DLR, KC_PERC,                     KC_AMPR, KC_PSLS, KC_PIPE, KC_PMNS, KC_QUES,
     // ----------------------------------------                         ----------------------------------------------
-    TD(TD_APP_TAB), KC_CIRC, KC_AT, KC_QUOT, KC_PIPE,                   KC_EXLM, KC_ASTR, KC_LPRN, KC_QUES, KC_ENT,
+    TD(TD_APP_TAB), KC_CIRC, KC_AT, KC_QUOT, KC_PIPE,                   KC_EXLM, KC_ASTR, KC_LPRN, M_QUES, KC_ENT,
     // ----------------------------------------                         ----------------------------------------------
     KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(3),
     // ----------------------------------------                         ----------------------------------------------
@@ -455,6 +462,7 @@ void td_left_skip(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+
 // Defining oneshot layer functions
 
 void alt_finished (tap_dance_state_t *state, void *user_data) {
@@ -481,6 +489,25 @@ void alt_reset (tap_dance_state_t *state, void *user_data) {
 
 }
 
+
+// Defining macros on user input level
+bool process_record_user(uint16_t keycode, keyrecord_t *record){
+    // define all macros to launch when keys are pressed (but not released)
+    if(record->event.pressed){
+        switch(keycode){
+            case M_QUES:
+            SEND_STRING("?");
+            return false;
+            break;
+
+
+        }
+    }
+    return true;
+}
+
+
+// Defining all macros for oneshot layers
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case KC_TRNS:
