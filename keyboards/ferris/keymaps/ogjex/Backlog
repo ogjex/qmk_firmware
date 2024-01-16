@@ -1,15 +1,59 @@
 2024 update:
 
-still having issues with the proper fork and pull request for vs code and github
+Unicode seems to be needed.
 
+Reading guide:
 
+Keyboard is designated as two Halves: A and B.
+Layers are numbered 0-4.
+Rows are numbers 1-4.
+Keys are numbered 1-5.
+[HLRK]
+
+So the A key would be A121, the Enter key would be B425.
 
 Backlog catalog:
 
-Add advanced tapdance function
-- backspace and delete
--
+Add advanced tapdance function:
+- Backspace and delete
+- Left and right arrow
 
-set shift on layer 0 to completely normal shift
+- add macros that send string chars
+    - works now, but requires unicode add ons
 
-add macros that send string chars
+- add unicodes for:
+    - !
+    - "
+    - #
+    - $
+    - %
+    - &
+    - /
+    - ()
+    - =
+    - ?
+    - +
+    - ^
+    - ~
+    - ¨
+    - `
+    - ``
+    - ```
+    - 0-9
+
+* add modtap for space ands shift
+
+- remove triple hold from B142
+
+- add double tap for B142 ctrl+shift
+
+- remove shift from A141 and replace with Windows key
+
+- make a mod tap for A141 layers 1+
+
+- fix local switch ctrl+tab in VS Code
+
+- add macro for capital letter after .
+
+- add macro for (), [], {}
+

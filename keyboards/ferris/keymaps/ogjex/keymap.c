@@ -6,9 +6,10 @@
 #include "features/tapdance.h"
 #include "definitions/keycodes.h"
 
+
 // Define our tap dance states
 typedef enum {
-    TD_NONE,
+    TD_NONE = SAFE_RANGE,
     TD_UNKNOWN,
     TD_SINGLE_TAP,
     TD_SINGLE_HOLD,
@@ -57,15 +58,12 @@ enum {
     ALT_OSL1,
     TD_OSM_SCAW,
     TD_LEFT_SKIP
-
 };
 
  //Our custom macros
 enum {
-    M_QUES = NEW_SAFE_RANGE,
-
+    M_QUES = SAFE_RANGE,
 };
-
 
 uint16_t key_timer;
 
@@ -79,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //-----------------------------------------                         -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                         -----------------------------------------------
-                        OSM(MOD_LSFT), KC_SPC,                          OSL(1), TD(TD_OSM_SCAW)
+                KC_LGUI, MT(L_SFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW
     ),
 
     [1] = LAYOUT(
@@ -301,6 +299,7 @@ void safe_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+
 // defining app and tab switcher tapdance key
 void td_apptab_switch(tap_dance_state_t *state, void *user_data) {
     tap_state.state = dance_state(state);
@@ -462,7 +461,6 @@ void td_left_skip(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-
 // Defining oneshot layer functions
 
 void alt_finished (tap_dance_state_t *state, void *user_data) {
@@ -496,7 +494,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record){
     if(record->event.pressed){
         switch(keycode){
             case M_QUES:
-            SEND_STRING("?");
+            SEND_STRING("+ and ?");
             return false;
             break;
 
