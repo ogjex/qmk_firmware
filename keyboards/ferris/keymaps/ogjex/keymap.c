@@ -6,10 +6,9 @@
 #include "features/tapdance.h"
 #include "definitions/keycodes.h"
 
-
 // Define our tap dance states
 typedef enum {
-    TD_NONE = SAFE_RANGE,
+    TD_NONE,
     TD_UNKNOWN,
     TD_SINGLE_TAP,
     TD_SINGLE_HOLD,
@@ -62,7 +61,7 @@ enum {
 
  //Our custom macros
 enum {
-    M_QUES = SAFE_RANGE,
+    M_QUES
 };
 
 uint16_t key_timer;
@@ -77,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //-----------------------------------------                         -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                         -----------------------------------------------
-                KC_LGUI, MT(L_SFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW
+                KC_LGUI, MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
     ),
 
     [1] = LAYOUT(
