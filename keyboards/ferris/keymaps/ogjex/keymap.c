@@ -27,7 +27,6 @@ enum {
     TD_LRST_GUI
 };
 
- //Our custom macros
 enum {
     M_QUES = SAFE_RANGE
 };
@@ -55,18 +54,11 @@ typedef struct {
   int state;
 } tap;
 
-// define alttap state for oneshot functions
-static tap alttap_state = {
-  .is_press_action = true,
-  .state = 0
-};
-
 // create a global instance of the tapdance state type
 static td_tap_t tap_state = {.state = TD_NONE};
 static td_state_t td_state;
 
-
-td_state_t dance_state(tap_dance_state_t *state);
+td_state_t cur_dance(tap_dance_state_t *state);
 
 void alt_finished (tap_dance_state_t *state, void *user_data);
 void alt_reset (tap_dance_state_t *state, void *user_data);
@@ -139,9 +131,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // -------------------------------------------------------------------------------------
 // initiate handlers to define the types of taps
 
-// declare functions to be defined later
-
-td_state_t dance_state(tap_dance_state_t *state) {
+// general function to define what type of tap to handle
+td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
         // Key has not been interrupted, but the key is still held. Means you want to send a 'HOLD'.
@@ -173,7 +164,7 @@ td_state_t dance_state(tap_dance_state_t *state) {
 
 // example of a full tap dance function structure
 void td_send_success_strings(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             SEND_STRING("key tapped once");
@@ -200,7 +191,7 @@ void td_send_success_strings(tap_dance_state_t *state, void *user_data) {
 
 // defining DK å
 void td_aa(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_A);
@@ -215,7 +206,7 @@ void td_aa(tap_dance_state_t *state, void *user_data) {
 
 // defining temporary ø
 void td_oe(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_O);
@@ -230,7 +221,7 @@ void td_oe(tap_dance_state_t *state, void *user_data) {
 
 // defining right arrow tapdance
 void td_right_skip(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_RIGHT);
@@ -242,7 +233,7 @@ void td_right_skip(tap_dance_state_t *state, void *user_data) {
 
 // defining delete key macro
 void td_delete(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_DEL);
@@ -263,7 +254,7 @@ void td_delete(tap_dance_state_t *state, void *user_data) {
 
 // defining backspace key macro
 void td_bspace(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_BSPC);
@@ -291,7 +282,7 @@ void td_bspace(tap_dance_state_t *state, void *user_data) {
 
 // enable keyboard reset key
 void safe_reset(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_HOLD:
             SEND_STRING("keyboard should be reset now");
@@ -305,7 +296,7 @@ void safe_reset(tap_dance_state_t *state, void *user_data) {
 
 // defining app and tab switcher tapdance key
 void td_apptab_switch(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_TAB);
@@ -334,7 +325,7 @@ void td_apptab_switch(tap_dance_state_t *state, void *user_data) {
 
 // defining esc and task manager tapdance key
     void td_esc_tm(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_ESCAPE);
@@ -349,7 +340,7 @@ void td_apptab_switch(tap_dance_state_t *state, void *user_data) {
 
 // defining ae and enter tapdance
 void td_ae_enter(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_SCLN);
@@ -365,7 +356,7 @@ void td_ae_enter(tap_dance_state_t *state, void *user_data) {
 
 // defining previous tab tapdance key
 void td_prev_tab(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LSFT) SS_TAP(X_TAB) SS_UP(X_LCTL) SS_UP(X_LSFT));
@@ -377,7 +368,7 @@ void td_prev_tab(tap_dance_state_t *state, void *user_data) {
 
 // defining next tab tapdance key
 void td_next_tab(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_TAB) SS_UP(X_LCTL));
@@ -389,7 +380,7 @@ void td_next_tab(tap_dance_state_t *state, void *user_data) {
 
 // defining home and previous desktop tapdance key
 void td_home_prev(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_HOME);
@@ -407,7 +398,7 @@ void td_home_prev(tap_dance_state_t *state, void *user_data) {
 
 // defining end and next desktop tapdance key
 void td_end_next(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_END);
@@ -425,7 +416,7 @@ void td_end_next(tap_dance_state_t *state, void *user_data) {
 
 // defining one shot mod shift-ctrl-alt and next desktop tapdance key
 void td_osm_sft_ctl_alt(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             set_oneshot_mods(MOD_LSFT);
@@ -449,7 +440,7 @@ void td_osm_sft_ctl_alt(tap_dance_state_t *state, void *user_data) {
 }
 
 void td_left_skip(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = dance_state(state);
+    tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_LEFT);
@@ -464,10 +455,16 @@ void td_left_skip(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-// Defining oneshot layer functions
 
+// define alttap state for oneshot functions
+static tap alttap_state = {
+  .is_press_action = true,
+  .state = 0
+};
+
+// Defining oneshot layer functions
 void alt_finished (tap_dance_state_t *state, void *user_data) {
-  alttap_state.state = dance_state(state);
+  alttap_state.state = cur_dance(state);
   switch (alttap_state.state) {
     case TD_SINGLE_TAP: set_oneshot_layer(0, ONESHOT_START); clear_oneshot_layer_state(ONESHOT_PRESSED); break;
     case TD_SINGLE_HOLD: register_code(KC_LALT); break;
@@ -490,11 +487,19 @@ void alt_reset (tap_dance_state_t *state, void *user_data) {
 
 }
 
+
+
+// Create an instance of 'td_tap_t' for the 'layer reset and hold gui' tap dance.
+static td_tap_t guitap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
 // for Layer reset and GUI hold tapdance; handle the possible states for each tapdance keycode you define
 
 void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
-  td_state = dance_state(state);
-  switch (td_state) {
+  guitap_state.state = cur_dance(state);
+  switch (guitap_state.state) {
     case TD_SINGLE_TAP:
       layer_on(0);
       break;
@@ -506,8 +511,8 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
-  switch (td_state) {
+void lrst_gui_reset (tap_cur_dance_t *state, void *user_data) {
+  switch (guitap_state.state) {
     case TD_SINGLE_HOLD:
       unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
       break;
@@ -525,8 +530,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record){
             SEND_STRING("+ and ?");
             return false;
             break;
-
-
+        default:
+            break;
         }
     }
     return true;
@@ -617,3 +622,4 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 
 };
 #endif // defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)
+
