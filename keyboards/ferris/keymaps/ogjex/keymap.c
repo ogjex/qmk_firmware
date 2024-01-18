@@ -6,6 +6,23 @@
 #include "features/tapdance.h"
 #include "definitions/keycodes.h"
 
+// Define our tap dance states
+typedef enum {
+    TD_NONE,
+    TD_UNKNOWN,
+    TD_SINGLE_TAP,
+    TD_SINGLE_HOLD,
+    TD_DOUBLE_TAP,
+    TD_DOUBLE_HOLD,
+    TD_DOUBLE_SINGLE_TAP, // Send two single taps
+    TD_TRIPLE_TAP,
+    TD_TRIPLE_HOLD
+} td_state_t;
+
+enum {
+    M_QUES = SAFE_RANGE
+};
+
  //Our custom tap dance keys; add any other tap dance keys to this enum
 enum {
     TD_RESET,
@@ -27,26 +44,10 @@ enum {
     TD_LRST_GUI
 };
 
-enum {
-    M_QUES = SAFE_RANGE
-};
-
-// Define our tap dance states
-typedef enum {
-    TD_NONE,
-    TD_UNKNOWN,
-    TD_SINGLE_TAP,
-    TD_SINGLE_HOLD,
-    TD_DOUBLE_TAP,
-    TD_DOUBLE_HOLD,
-    TD_DOUBLE_SINGLE_TAP, // Send two single taps
-    TD_TRIPLE_TAP,
-    TD_TRIPLE_HOLD
-} td_state_t;
-
 typedef struct {
+    bool is_press_action;
+    bool recording;
     td_state_t state;
-    bool       recording;
 } td_tap_t;
 
 typedef struct {
@@ -56,10 +57,9 @@ typedef struct {
 
 // create a global instance of the tapdance state type
 static td_tap_t tap_state = {.state = TD_NONE};
-static td_state_t td_state;
 
+// define functions
 td_state_t cur_dance(tap_dance_state_t *state);
-
 void alt_finished (tap_dance_state_t *state, void *user_data);
 void alt_reset (tap_dance_state_t *state, void *user_data);
 
@@ -109,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         --------------------------------------------
     KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),         KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
     // ----------------------------------------                         --------------------------------------------
-                            TO(0), KC_LSFT,                             KC_BTN1, TD(TD_OSM_SCAW)
+                        TD(TD_LRST_GUI), KC_LSFT,                       KC_BTN1, TD(TD_OSM_SCAW)
     ),
 
 
@@ -487,8 +487,6 @@ void alt_reset (tap_dance_state_t *state, void *user_data) {
 
 }
 
-
-
 // Create an instance of 'td_tap_t' for the 'layer reset and hold gui' tap dance.
 static td_tap_t guitap_state = {
     .is_press_action = true,
@@ -501,8 +499,8 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
   guitap_state.state = cur_dance(state);
   switch (guitap_state.state) {
     case TD_SINGLE_TAP:
-      layer_on(0);
-      break;
+      //layer_on(0);
+      tap_code(KC_A);
     case TD_SINGLE_HOLD:
       register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
       break;
@@ -511,15 +509,16 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void lrst_gui_reset (tap_cur_dance_t *state, void *user_data) {
-  switch (guitap_state.state) {
-    case TD_SINGLE_HOLD:
-      unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
+void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
+    switch (guitap_state.state) {
+        case TD_SINGLE_HOLD:
+        unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
       break;
     default:
       break;
   }
 }
+
 
 // Defining macros on user input level
 bool process_record_user(uint16_t keycode, keyrecord_t *record){
@@ -537,19 +536,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record){
     return true;
 }
 
-
-// Defining all macros for oneshot layers
+// commented for troubleshoot reasons
+/* Defining all macros for oneshot layers
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case KC_TRNS:
     case KC_NO:
-      /* Always cancel one-shot layer when another key gets pressed */
+      // Always cancel one-shot layer when another key gets pressed
       if (record->event.pressed && is_oneshot_layer_active()){
       clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
       return true;
       }
     case QK_BOOTLOADER:
-      /* Don't allow reset from oneshot layer state */
+      // Don't allow reset from oneshot layer state
       if (record->event.pressed && is_oneshot_layer_active()){
         clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
         return false;
@@ -560,6 +559,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+*/
 
 // define per key tapping term
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -579,8 +579,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case TD(TD_LEFT_SKIP):
             return QUICK_TAP_TERM - 20;
-        case TD(TD_LRST_GUI):
-            return QUICK_TAP_TERM - 175;
+        /*case TD(TD_LRST_GUI):
+            return QUICK_TAP_TERM - 100;*/
         default:
             return QUICK_TAP_TERM;
     }
