@@ -6,6 +6,32 @@
 #include "features/tapdance.h"
 #include "definitions/keycodes.h"
 
+ //Our custom tap dance keys; add any other tap dance keys to this enum
+enum {
+    TD_RESET,
+    TD_DELETE,
+    TD_BSPACE,
+    TD_AE_ENTER,
+    TD_TEST_STRING,
+    TD_AA_DK,
+    TD_OE_DK,
+    TD_APP_TAB,
+    TD_HOME_P,
+    TD_END_N,
+    TD_ESC_TM,
+    TD_NEXT_T,
+    TD_PREV_T,
+    ALT_OSL1,
+    TD_OSM_SCAW,
+    TD_LEFT_SKIP,
+    TD_LRST_GUI
+};
+
+ //Our custom macros
+enum {
+    M_QUES
+};
+
 // Define our tap dance states
 typedef enum {
     TD_NONE,
@@ -35,34 +61,16 @@ static tap alttap_state = {
   .state = 0
 };
 
-// declare variables to be used
+// create a global instance of the tapdance state type
 static td_tap_t tap_state = {.state = TD_NONE};
+static td_state_t td_state;
 
 
- //Our custom tap dance keys; add any other tap dance keys to this enum
-enum {
-    TD_RESET,
-    TD_DELETE,
-    TD_BSPACE,
-    TD_AE_ENTER,
-    TD_TEST_STRING,
-    TD_AA_DK,
-    TD_OE_DK,
-    TD_APP_TAB,
-    TD_HOME_P,
-    TD_END_N,
-    TD_ESC_TM,
-    TD_NEXT_T,
-    TD_PREV_T,
-    ALT_OSL1,
-    TD_OSM_SCAW,
-    TD_LEFT_SKIP
-};
+td_state_t dance_state(tap_dance_state_t *state);
 
- //Our custom macros
-enum {
-    M_QUES
-};
+void alt_finished (tap_dance_state_t *state, void *user_data);
+void alt_reset (tap_dance_state_t *state, void *user_data);
+
 
 uint16_t key_timer;
 
@@ -76,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //-----------------------------------------                         -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                         -----------------------------------------------
-                KC_LGUI, MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
+                TD(TD_LRST_GUI), MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
     ),
 
     [1] = LAYOUT(
@@ -132,10 +140,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // initiate handlers to define the types of taps
 
 // declare functions to be defined later
-
-td_state_t dance_state(tap_dance_state_t *state);
-void alt_finished (tap_dance_state_t *state, void *user_data);
-void alt_reset (tap_dance_state_t *state, void *user_data);
 
 td_state_t dance_state(tap_dance_state_t *state) {
     if (state->count == 1) {
@@ -486,6 +490,31 @@ void alt_reset (tap_dance_state_t *state, void *user_data) {
 
 }
 
+// for Layer reset and GUI hold tapdance; handle the possible states for each tapdance keycode you define
+
+void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
+  td_state = dance_state(state);
+  switch (td_state) {
+    case SINGLE_TAP:
+      layer_on(0);
+      break;
+    case SINGLE_HOLD:
+      register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
+      break;
+    default:
+      break;
+  }
+}
+
+void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
+  switch (td_state) {
+    case SINGLE_HOLD:
+      unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
+      break;
+    default:
+      break;
+  }
+}
 
 // Defining macros on user input level
 bool process_record_user(uint16_t keycode, keyrecord_t *record){
@@ -567,7 +596,8 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_PREV_T] = ACTION_TAP_DANCE_FN(td_prev_tab),
     [ALT_OSL1]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL,alt_finished, alt_reset),
     [TD_OSM_SCAW] = ACTION_TAP_DANCE_FN(td_osm_sft_ctl_alt),
-    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN(td_left_skip)
+    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN(td_left_skip),
+    [TD_LRST_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lrst_gui_finished, lrst_gui_reset)
 };
 
 // old code from here
