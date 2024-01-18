@@ -29,7 +29,7 @@ enum {
 
  //Our custom macros
 enum {
-    M_QUES
+    M_QUES = SAFE_RANGE
 };
 
 // Define our tap dance states
@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //-----------------------------------------                         -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                         -----------------------------------------------
-                TD(TD_LRST_GUI), MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
+            TD(TD_LRST_GUI), MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
     ),
 
     [1] = LAYOUT(
@@ -95,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ----------------------------------------------
     KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(3),
     // ----------------------------------------                         ----------------------------------------------
-                            TO(0), KC_TRNS,                             TO(2), KC_TRNS
+                        TD(TD_LRST_GUI), KC_TRNS,                       TO(2), KC_TRNS
     ),
 
     [2] = LAYOUT(
@@ -106,9 +106,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ---------------------------------------------
     KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                        KC_0, KC_1, KC_2, KC_3, KC_PEQL,
     // ----------------------------------------                         ---------------------------------------------
-                                TO(0), KC_TRNS,                         TO(4), KC_TRNS
+                      TD(TD_LRST_GUI), KC_TRNS,                         KC_NO, KC_TRNS
     ),
-
 
     [3] = LAYOUT(
     // Navigation layer, from base layer 0-----                         --------------------------------------------
@@ -120,6 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         --------------------------------------------
                             TO(0), KC_LSFT,                             KC_BTN1, TD(TD_OSM_SCAW)
     ),
+
 
     [4] = LAYOUT(
     // Reset layer, from layer 3---------------                         --------------------------------------------
@@ -495,10 +495,10 @@ void alt_reset (tap_dance_state_t *state, void *user_data) {
 void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
   td_state = dance_state(state);
   switch (td_state) {
-    case SINGLE_TAP:
+    case TD_SINGLE_TAP:
       layer_on(0);
       break;
-    case SINGLE_HOLD:
+    case TD_SINGLE_HOLD:
       register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
       break;
     default:
@@ -508,7 +508,7 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
 
 void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
   switch (td_state) {
-    case SINGLE_HOLD:
+    case TD_SINGLE_HOLD:
       unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
       break;
     default:
@@ -567,13 +567,15 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
       return 50;
     default:
       return TAPPING_TERM;
-  }
+    }
 }
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case TD(TD_LEFT_SKIP):
             return QUICK_TAP_TERM - 20;
+        case TD(TD_LRST_GUI):
+            return QUICK_TAP_TERM - 175;
         default:
             return QUICK_TAP_TERM;
     }
