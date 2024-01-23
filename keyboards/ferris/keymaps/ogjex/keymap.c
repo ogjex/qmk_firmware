@@ -281,6 +281,7 @@ void td_bspace(tap_dance_state_t *state, void *user_data) {
 }
 
 // enable keyboard reset key
+// CURRENTLY NOT IN USE
 void safe_reset(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
@@ -502,7 +503,8 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
       //layer_on(0);
       tap_code(KC_A);
     case TD_SINGLE_HOLD:
-      register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
+    SEND_STRING("HOLD HELD");
+      //register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
       break;
     default:
       break;
@@ -512,7 +514,8 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
 void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
     switch (guitap_state.state) {
         case TD_SINGLE_HOLD:
-        unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
+        SEND_STRING("HOLD RELEASED");
+        //unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
       break;
     default:
       break;
@@ -567,9 +570,9 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case TD(TD_OSM_SCAW):
       return 150;
     case TD(TD_BSPACE):
-      return 50;
+      return 150;
     case TD(TD_DELETE):
-      return 50;
+      return 150;
     default:
       return TAPPING_TERM;
     }

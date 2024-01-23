@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #undef TAPPING_TERM
 #define TAPPING_TERM 200
-#define TAPPING_TERM_PER_KEYS
+#define TAPPING_TERM_PER_KEY
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 #define QUICK_TAP_TERM 120
 
