@@ -76,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //-----------------------------------------                         -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                         -----------------------------------------------
-            TD(TD_LRST_GUI), MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
+                TO(0), MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
     ),
 
     [1] = LAYOUT(
@@ -87,18 +87,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ----------------------------------------------
     KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(3),
     // ----------------------------------------                         ----------------------------------------------
-                        TD(TD_LRST_GUI), KC_TRNS,                       TO(2), KC_TRNS
+                                TO(0), KC_TRNS,                         TO(2), KC_TRNS
     ),
 
     [2] = LAYOUT(
     // Numpad layer, from layer 1--------------                         ---------------------------------------------
     KC_TRNS, KC_TRNS, KC_PSLS, KC_PAST, KC_PMNS,                        KC_PEQL, KC_7, KC_8, KC_9, TD(TD_BSPACE),
     // ----------------------------------------                         ---------------------------------------------
-    KC_TRNS, KC_NO, KC_NO, KC_NO, KC_PPLS,                              KC_PERC, KC_4, KC_5, KC_6, KC_ENT,
+    KC_TRNS, TD(TD_LRST_GUI), KC_NO, KC_NO, KC_PPLS,                    KC_PERC, KC_4, KC_5, KC_6, KC_ENT,
     // ----------------------------------------                         ---------------------------------------------
     KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                        KC_0, KC_1, KC_2, KC_3, KC_PEQL,
     // ----------------------------------------                         ---------------------------------------------
-                      TD(TD_LRST_GUI), KC_TRNS,                         KC_NO, KC_TRNS
+
+                                TO(0), KC_TRNS,                         KC_NO, KC_TRNS
     ),
 
     [3] = LAYOUT(
@@ -109,13 +110,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         --------------------------------------------
     KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),         KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
     // ----------------------------------------                         --------------------------------------------
-                        TD(TD_LRST_GUI), KC_LSFT,                       KC_BTN1, TD(TD_OSM_SCAW)
+                                TO(0), KC_LSFT,                         KC_BTN1, TD(TD_OSM_SCAW)
     ),
 
 
     [4] = LAYOUT(
     // Reset layer, from layer 3---------------                         --------------------------------------------
-    QK_BOOTLOADER, KC_Q, KC_NO, KC_NO, KC_NO,                            KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    QK_BOOTLOADER, KC_Q, KC_NO, KC_NO, KC_NO,                           KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
     // ----------------------------------------                         ---------------------------------------------
     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
     // ----------------------------------------                         ---------------------------------------------
@@ -502,7 +503,7 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
     case TD_SINGLE_TAP:
       //layer_on(0);
       tap_code(KC_A);
-    case TD_SINGLE_HOLD:
+    case TD_DOUBLE_HOLD:
     SEND_STRING("HOLD HELD");
       //register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
       break;
@@ -513,7 +514,7 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
 
 void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
     switch (guitap_state.state) {
-        case TD_SINGLE_HOLD:
+        case TD_DOUBLE_HOLD:
         SEND_STRING("HOLD RELEASED");
         //unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
       break;
