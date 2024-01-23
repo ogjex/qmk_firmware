@@ -498,29 +498,28 @@ static td_tap_t guitap_state = {
 // for Layer reset and GUI hold tapdance; handle the possible states for each tapdance keycode you define
 
 void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
-  guitap_state.state = cur_dance(state);
-  switch (guitap_state.state) {
-    case TD_SINGLE_TAP:
-      //layer_on(0);
-      tap_code(KC_A);
-    case TD_DOUBLE_HOLD:
-    SEND_STRING("HOLD HELD");
-      //register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
-      break;
-    default:
-      break;
+    guitap_state.state = cur_dance(state);
+    switch (guitap_state.state) {
+        case TD_SINGLE_TAP:
+            layer_on(0);
+            break;
+        case TD_DOUBLE_HOLD:
+            register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        default:
+            break;
   }
 }
 
 void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
     switch (guitap_state.state) {
         case TD_DOUBLE_HOLD:
-        SEND_STRING("HOLD RELEASED");
-        //unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
-      break;
-    default:
-      break;
+            unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
   }
+   guitap_state.state = TD_NONE;
 }
 
 
