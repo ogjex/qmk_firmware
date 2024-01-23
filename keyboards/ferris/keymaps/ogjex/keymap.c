@@ -6,6 +6,11 @@
 #include "features/tapdance.h"
 #include "definitions/keycodes.h"
 
+#define _QWERTY 0
+#define _SYMB 1
+#define _NMPAD 2
+#define _NAV 3
+
 // Define our tap dance states
 typedef enum {
     TD_NONE,
@@ -68,7 +73,7 @@ uint16_t key_timer;
 
 // define the various layers
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT(
+    [_QWERTY] = LAYOUT(
     // Base key input layer--------------------                         -----------------------------------------------
     KC_Q, KC_W, KC_E, KC_R, KC_T,                                       KC_Y, KC_U, KC_I, TD(TD_OE_DK), KC_P,
     //-----------------------------------------                         -----------------------------------------------
@@ -76,21 +81,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //-----------------------------------------                         -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                         -----------------------------------------------
-                TO(0), MT(MOD_LSFT, KC_SPC),                              OSL(1), TD(TD_OSM_SCAW)
+                TO(_QWERTY), MT(MOD_LSFT, KC_SPC),                              OSL(_SYMB), TD(TD_OSM_SCAW)
     ),
 
-    [1] = LAYOUT(
+    [_SYMB] = LAYOUT(
     // Signs and symbols layer, from layer 0---                         ----------------------------------------------
     TD(TD_ESC_TM), KC_AT, KC_HASH, KC_DLR, KC_PERC,                     KC_AMPR, KC_PSLS, KC_PIPE, KC_PMNS, KC_QUES,
     // ----------------------------------------                         ----------------------------------------------
     TD(TD_APP_TAB), KC_CIRC, KC_AT, KC_QUOT, KC_PIPE,                   KC_EXLM, KC_ASTR, KC_LPRN, M_QUES, KC_ENT,
     // ----------------------------------------                         ----------------------------------------------
-    KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(3),
+    KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(_NAV),
     // ----------------------------------------                         ----------------------------------------------
-                                TO(0), KC_TRNS,                         TO(2), KC_TRNS
+                                TO(_QWERTY), KC_TRNS,                         TO(_NMPAD), KC_TRNS
     ),
 
-    [2] = LAYOUT(
+    [_NMPAD] = LAYOUT(
     // Numpad layer, from layer 1--------------                         ---------------------------------------------
     KC_TRNS, KC_TRNS, KC_PSLS, KC_PAST, KC_PMNS,                        KC_PEQL, KC_7, KC_8, KC_9, TD(TD_BSPACE),
     // ----------------------------------------                         ---------------------------------------------
@@ -99,10 +104,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                        KC_0, KC_1, KC_2, KC_3, KC_PEQL,
     // ----------------------------------------                         ---------------------------------------------
 
-                                TO(0), KC_TRNS,                         KC_NO, KC_TRNS
+                                TO(_QWERTY), KC_TRNS,                         KC_NO, KC_TRNS
     ),
 
-    [3] = LAYOUT(
+    [_NAV] = LAYOUT(
     // Navigation layer, from base layer 0-----                         --------------------------------------------
     TD(TD_ESC_TM), KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                  TD(TD_HOME_P), TD(TD_PREV_T), TD(TD_NEXT_T), TD(TD_END_N), TD(TD_BSPACE),
     // ----------------------------------------                         --------------------------------------------
@@ -110,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         --------------------------------------------
     KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),         KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
     // ----------------------------------------                         --------------------------------------------
-                                TO(0), KC_LSFT,                         KC_BTN1, TD(TD_OSM_SCAW)
+                                TO(_QWERTY), KC_LSFT,                         KC_BTN1, TD(TD_OSM_SCAW)
     ),
 
 
@@ -122,7 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ---------------------------------------------
     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
     // ----------------------------------------                         ---------------------------------------------
-                                TO(0), KC_NO,                           KC_NO, KC_NO
+                                TO(_QWERTY), KC_NO,                           KC_NO, KC_NO
 
     ),
 };
@@ -501,7 +506,8 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
     guitap_state.state = cur_dance(state);
     switch (guitap_state.state) {
         case TD_SINGLE_TAP:
-            layer_on(0);
+            layer_on(_QWERTY);
+            SEND_STRING("LAYER SHOULD BE ON!");
             break;
         case TD_DOUBLE_HOLD:
             register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
@@ -566,15 +572,17 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
 // define per key tapping term
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case TD(TD_OSM_SCAW):
-      return 150;
-    case TD(TD_BSPACE):
-      return 150;
-    case TD(TD_DELETE):
-      return 150;
-    default:
-      return TAPPING_TERM;
+    switch (keycode) {
+        case TD(TD_OSM_SCAW):
+            return 100;
+        case TD(TD_BSPACE):
+            return 150;
+        case TD(TD_DELETE):
+            return 150;
+        case TD(TD_LEFT_SKIP):
+            return 150;
+        default:
+            return TAPPING_TERM;
     }
 }
 
