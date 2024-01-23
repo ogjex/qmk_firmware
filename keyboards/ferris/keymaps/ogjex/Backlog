@@ -41,9 +41,11 @@ Add advanced tapdance function:
     - ```
     - 0-9
 
+*D fix left and right skip arrow keys
+
 *D add modtap for space ands shift
 
-- kc_no currently sends m_ques macro
+*D kc_no currently sends m_ques macro
 
 - remove double hold from B142
 
@@ -51,9 +53,10 @@ Add advanced tapdance function:
 
 - remove shift from A141 and replace with Windows key
 
-- make a mod tap for A141 layers 1+
+*D make a mod tap for A141 layers 1+
     - set tapping term to very little
     - make sure that the key is actually held on layers 1-4
+    - [bug] does not distinguish between tap and hold (hold is called even though it is a tap)
 
 - fix local switch ctrl+tab in VS Code
 

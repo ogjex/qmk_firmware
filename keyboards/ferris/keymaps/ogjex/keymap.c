@@ -46,6 +46,7 @@ enum {
     ALT_OSL1,
     TD_OSM_SCAW,
     TD_LEFT_SKIP,
+    TD_RIGHT_SKIP,
     TD_LRST_GUI
 };
 
@@ -111,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Navigation layer, from base layer 0-----                         --------------------------------------------
     TD(TD_ESC_TM), KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                  TD(TD_HOME_P), TD(TD_PREV_T), TD(TD_NEXT_T), TD(TD_END_N), TD(TD_BSPACE),
     // ----------------------------------------                         --------------------------------------------
-    TD(TD_APP_TAB), KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                 TD(TD_LEFT_SKIP), KC_DOWN, KC_UP, KC_RIGHT, KC_ENT,
+    TD(TD_APP_TAB), KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                 TD(TD_LEFT_SKIP), KC_DOWN, KC_UP, TD(TD_RIGHT_SKIP), KC_ENT,
     // ----------------------------------------                         --------------------------------------------
     KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),         KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
     // ----------------------------------------                         --------------------------------------------
@@ -446,22 +447,35 @@ void td_osm_sft_ctl_alt(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_left_skip(tap_dance_state_t *state, void *user_data) {
+void td_left_skip_each_tap(tap_dance_state_t *state, void *user_data) {
+    tap_code(KC_LEFT);
+}
+
+void td_left_skip_finished(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
-        case TD_SINGLE_TAP:
-            tap_code(KC_LEFT);
-            break;
         case TD_SINGLE_HOLD:
             SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LCTL));
-
             break;
-
         default:
             break;
     }
 }
 
+void td_right_skip_each_tap(tap_dance_state_t *state, void *user_data) {
+    tap_code(KC_RIGHT);
+}
+
+void td_right_skip_finished(tap_dance_state_t *state, void *user_data) {
+    tap_state.state = cur_dance(state);
+    switch (tap_state.state) {
+        case TD_SINGLE_HOLD:
+            SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LCTL));
+            break;
+        default:
+            break;
+    }
+}
 
 // define alttap state for oneshot functions
 static tap alttap_state = {
@@ -574,7 +588,7 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case TD(TD_OSM_SCAW):
-            return 100;
+            return 150;
         case TD(TD_BSPACE):
             return 150;
         case TD(TD_DELETE):
@@ -614,7 +628,8 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_PREV_T] = ACTION_TAP_DANCE_FN(td_prev_tab),
     [ALT_OSL1]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL,alt_finished, alt_reset),
     [TD_OSM_SCAW] = ACTION_TAP_DANCE_FN(td_osm_sft_ctl_alt),
-    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN(td_left_skip),
+    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_left_skip_each_tap, td_left_skip_finished, NULL),
+    [TD_RIGHT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_right_skip_each_tap, td_right_skip_finished, NULL),
     [TD_LRST_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lrst_gui_finished, lrst_gui_reset)
 };
 
