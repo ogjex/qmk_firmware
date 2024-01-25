@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ----------------------------------------------
     KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(_NAV),
     // ----------------------------------------                         ----------------------------------------------
-                                TD(TD_LRST_GUI), KC_TRNS,                         TO(_NMPAD), KC_TRNS
+                            KC_TRNS, KC_TRNS,                           TO(_NMPAD), KC_TRNS
     ),
 
     [_NMPAD] = LAYOUT(
@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ---------------------------------------------
     KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                        KC_0, KC_1, KC_2, KC_3, KC_PEQL,
     // ----------------------------------------                         ---------------------------------------------
-                                TD(TD_LRST_GUI), KC_TRNS,                         KC_NO, KC_TRNS
+                                KC_TRNS, KC_TRNS,                       KC_NO, KC_TRNS
     ),
 
     [_NAV] = LAYOUT(
@@ -115,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         --------------------------------------------
     KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),         KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
     // ----------------------------------------                         --------------------------------------------
-                                TD(TD_LRST_GUI), KC_LSFT,                         KC_BTN1, TD(TD_OSM_SCAW)
+                            KC_TRNS, KC_TRNS,                           KC_BTN1, TD(TD_OSM_SCAW)
     ),
 
 
