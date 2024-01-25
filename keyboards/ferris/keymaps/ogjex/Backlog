@@ -14,10 +14,6 @@ So the A key would be A121, the Enter key would be B425.
 
 Backlog catalog:
 
-Add advanced tapdance function:
-- Backspace and delete
-- Left and right arrow
-
 - add macros that send string chars
     - works now, but requires unicode add ons
 
@@ -54,13 +50,15 @@ Add advanced tapdance function:
 - remove shift from A141 and replace with Windows key
 
 *D make a mod tap for A141 layers 1+
-    - set tapping term to very little
-    - make sure that the key is actually held on layers 1-4
-    - [bug] does not distinguish between tap and hold (hold is called even though it is a tap)
+    * set tapping term to very little
+    * make sure that the key is actually held on layers 1-4
+    * [bug] does not distinguish between tap and hold (hold is called even though it is a tap)
+    - layer on is not called correctly (but worked 3 days ago)
 
 - fix local switch ctrl+tab in VS Code
 
 - add macro for capital letter after .
 
-- add macro for (), [], {}
+- add macro for (), [], {} when double tapped
 
+- refactor code into low coupled architecture so it can be shared with other 34 keyboard layouts

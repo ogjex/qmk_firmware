@@ -82,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //-----------------------------------------                         -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                         -----------------------------------------------
-                TO(_QWERTY), MT(MOD_LSFT, KC_SPC),                              OSL(_SYMB), TD(TD_OSM_SCAW)
+                TD(TD_LRST_GUI), MT(MOD_LSFT, KC_SPC),                              OSL(_SYMB), TD(TD_OSM_SCAW)
     ),
 
     [_SYMB] = LAYOUT(
@@ -93,19 +93,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ----------------------------------------------
     KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(_NAV),
     // ----------------------------------------                         ----------------------------------------------
-                                TO(_QWERTY), KC_TRNS,                         TO(_NMPAD), KC_TRNS
+                                TD(TD_LRST_GUI), KC_TRNS,                         TO(_NMPAD), KC_TRNS
     ),
 
     [_NMPAD] = LAYOUT(
     // Numpad layer, from layer 1--------------                         ---------------------------------------------
     KC_TRNS, KC_TRNS, KC_PSLS, KC_PAST, KC_PMNS,                        KC_PEQL, KC_7, KC_8, KC_9, TD(TD_BSPACE),
     // ----------------------------------------                         ---------------------------------------------
-    KC_TRNS, TD(TD_LRST_GUI), KC_NO, KC_NO, KC_PPLS,                    KC_PERC, KC_4, KC_5, KC_6, KC_ENT,
+    KC_TRNS, KC_NO, KC_NO, KC_NO, KC_PPLS,                              KC_PERC, KC_4, KC_5, KC_6, KC_ENT,
     // ----------------------------------------                         ---------------------------------------------
     KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                        KC_0, KC_1, KC_2, KC_3, KC_PEQL,
     // ----------------------------------------                         ---------------------------------------------
 
-                                TO(_QWERTY), KC_TRNS,                         KC_NO, KC_TRNS
+                                TD(TD_LRST_GUI), KC_TRNS,                         KC_NO, KC_TRNS
     ),
 
     [_NAV] = LAYOUT(
@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         --------------------------------------------
     KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),         KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
     // ----------------------------------------                         --------------------------------------------
-                                TO(_QWERTY), KC_LSFT,                         KC_BTN1, TD(TD_OSM_SCAW)
+                                TD(TD_LRST_GUI), KC_LSFT,                         KC_BTN1, TD(TD_OSM_SCAW)
     ),
 
 
@@ -520,8 +520,7 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
     guitap_state.state = cur_dance(state);
     switch (guitap_state.state) {
         case TD_SINGLE_TAP:
-            layer_on(_QWERTY);
-            SEND_STRING("LAYER SHOULD BE ON!");
+            layer_move(_QWERTY);
             break;
         case TD_DOUBLE_HOLD:
             register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
@@ -587,8 +586,8 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 // define per key tapping term
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case TD(TD_OSM_SCAW):
-            return 150;
+        /*case TD(TD_OSM_SCAW):
+            return 150;*/
         case TD(TD_BSPACE):
             return 150;
         case TD(TD_DELETE):
@@ -600,16 +599,16 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+/*
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case TD(TD_LEFT_SKIP):
             return QUICK_TAP_TERM - 20;
-        /*case TD(TD_LRST_GUI):
-            return QUICK_TAP_TERM - 100;*/
         default:
             return QUICK_TAP_TERM;
     }
 }
+*/
 
 //Associate our tap dance key with its functionality
 tap_dance_action_t tap_dance_actions[] = {
