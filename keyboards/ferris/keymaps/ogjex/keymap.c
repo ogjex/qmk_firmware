@@ -104,7 +104,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // ----------------------------------------                         ---------------------------------------------
     KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                        KC_0, KC_1, KC_2, KC_3, KC_PEQL,
     // ----------------------------------------                         ---------------------------------------------
-
                                 TD(TD_LRST_GUI), KC_TRNS,                         KC_NO, KC_TRNS
     ),
 
@@ -522,7 +521,7 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_TAP:
             layer_move(_QWERTY);
             break;
-        case TD_DOUBLE_HOLD:
+        case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         default:
@@ -532,7 +531,7 @@ void lrst_gui_finished (tap_dance_state_t *state, void *user_data) {
 
 void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
     switch (guitap_state.state) {
-        case TD_DOUBLE_HOLD:
+        case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         default:
