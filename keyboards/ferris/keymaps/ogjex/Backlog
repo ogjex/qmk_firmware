@@ -21,15 +21,21 @@ Backlog catalog:
 
 *D fix Danish special chars for keyboard
 
+- create DK custom key codes for stronger readability of layout _SYMB
+
 *D fix left and right skip arrow keys
 
 *D add modtap for space ands shift
 
 *D kc_no currently sends m_ques macro
 
-- remove double hold from B142
+- remove double hold gui from B142
 
-- add double tap for B142 ctrl+shift
+- add gui key unregister somewhere
+
+- add double hold for B142 ctrl+shift and triple hold for ctrl+shift+alt
+
+- add plus for hold tap dances in _SYMB
 
 *D remove shift from A141 and replace with Windows key
 
