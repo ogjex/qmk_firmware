@@ -2,6 +2,8 @@
 
 Unicode seems to be needed.
 
+
+______________________________________________________________________________
 Reading guide:
 
 Keyboard is designated as two Halves: A and B.
@@ -12,30 +14,12 @@ Keys are numbered 1-5.
 
 So the A key would be A121, the Enter key would be B425.
 
+
+_______________________________________________________________________________
+
 Backlog catalog:
 
-- add macros that send string chars
-    - works now, but requires unicode add ons
-
-- add unicodes for:
-    - !
-    - "
-    - #
-    - $
-    - %
-    - &
-    - /
-    - ()
-    - =
-    - ?
-    - +
-    - ^
-    - ~
-    - ¨
-    - `
-    - ``
-    - ```
-    - 0-9
+*D fix Danish special chars for keyboard
 
 *D fix left and right skip arrow keys
 
@@ -47,7 +31,7 @@ Backlog catalog:
 
 - add double tap for B142 ctrl+shift
 
-- remove shift from A141 and replace with Windows key
+*D remove shift from A141 and replace with Windows key
 
 *D make a mod tap for A141 layers 1+
     * set tapping term to very little
@@ -60,5 +44,7 @@ Backlog catalog:
 - add macro for capital letter after .
 
 - add macro for (), [], {} when double tapped
+
+- add macro for `, `` and ```, ", ' when double and/or triple tapped
 
 - refactor code into low coupled architecture so it can be shared with other 34 keyboard layouts

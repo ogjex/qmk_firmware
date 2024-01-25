@@ -1,7 +1,9 @@
+#include "keymap_danish.h"
 #include "action.h"
 #include "action_code.h"
 #include "keycodes.h"
 #include QMK_KEYBOARD_H
+
 
 #include "features/tapdance.h"
 #include "definitions/keycodes.h"
@@ -75,60 +77,58 @@ uint16_t key_timer;
 // define the various layers
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
-    // Base key input layer--------------------                         -----------------------------------------------
-    KC_Q, KC_W, KC_E, KC_R, KC_T,                                       KC_Y, KC_U, KC_I, TD(TD_OE_DK), KC_P,
-    //-----------------------------------------                         -----------------------------------------------
-    TD(TD_AA_DK), KC_S, KC_D, KC_F, KC_G,                               KC_H, KC_J, KC_K, KC_L, TD(TD_AE_ENTER),
-    //-----------------------------------------                         -----------------------------------------------
-    KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                             KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
-    //-----------------------------------------                         -----------------------------------------------
+    // Base key input layer--------------------                                     -----------------------------------------------
+    KC_Q, KC_W, KC_E, KC_R, KC_T,                                                   KC_Y, KC_U, KC_I, TD(TD_OE_DK), KC_P,
+    //-----------------------------------------                                     -----------------------------------------------
+    TD(TD_AA_DK), KC_S, KC_D, KC_F, KC_G,                                           KC_H, KC_J, KC_K, KC_L, TD(TD_AE_ENTER),
+    //-----------------------------------------                                     -----------------------------------------------
+    KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                                         KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
+    //-----------------------------------------                                     -----------------------------------------------
                 TD(TD_LRST_GUI), MT(MOD_LSFT, KC_SPC),                              OSL(_SYMB), TD(TD_OSM_SCAW)
     ),
 
     [_SYMB] = LAYOUT(
-    // Signs and symbols layer, from layer 0---                         ----------------------------------------------
-    TD(TD_ESC_TM), KC_AT, KC_HASH, KC_DLR, KC_PERC,                     KC_AMPR, KC_PSLS, KC_PIPE, KC_PMNS, KC_QUES,
-    // ----------------------------------------                         ----------------------------------------------
-    TD(TD_APP_TAB), KC_CIRC, KC_AT, KC_QUOT, KC_PIPE,                   KC_EXLM, KC_ASTR, KC_LPRN, M_QUES, KC_ENT,
-    // ----------------------------------------                         ----------------------------------------------
-    KC_LT, KC_GT, KC_TILD, KC_GRV, KC_TRNS,                             KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, TO(_NAV),
-    // ----------------------------------------                         ----------------------------------------------
-                            KC_TRNS, KC_TRNS,                           TO(_NMPAD), KC_TRNS
+    // Signs and symbols layer, from layer 0---                                     ----------------------------------------------
+    TD(TD_ESC_TM), ALGR(KC_2), LSFT(KC_3), ALGR(KC_4), LSFT(KC_4),                  LSFT(KC_6), LSFT(KC_7), KC_NO, KC_SLSH, LSFT(KC_SLSH),
+    // ----------------------------------------                                     ----------------------------------------------
+    KC_EQL, LSFT(KC_EQL), LSFT(KC_2), KC_NUHS, KC_PAST,                             LSFT(KC_1), LSFT(KC_8), LSFT(KC_9), LSFT(KC_MINS), ALGR(KC_EQL),
+    // ----------------------------------------                                     ----------------------------------------------
+    KC_NUBS, LSFT(KC_NUBS), ALGR(KC_RBRC), KC_RBRC, KC_GRV,                         ALGR(KC_8), ALGR(KC_7), ALGR(KC_0), ALGR(KC_9), TO(_NAV),
+    // ----------------------------------------                                     ----------------------------------------------
+                            KC_TRNS, KC_TRNS,                                       TO(_NMPAD), KC_TRNS
     ),
 
     [_NMPAD] = LAYOUT(
-    // Numpad layer, from layer 1--------------                         ---------------------------------------------
-    KC_TRNS, KC_TRNS, KC_PSLS, KC_PAST, KC_PMNS,                        KC_PEQL, KC_7, KC_8, KC_9, TD(TD_BSPACE),
-    // ----------------------------------------                         ---------------------------------------------
-    KC_TRNS, KC_NO, KC_NO, KC_NO, KC_PPLS,                              KC_PERC, KC_4, KC_5, KC_6, KC_ENT,
-    // ----------------------------------------                         ---------------------------------------------
-    KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                        KC_0, KC_1, KC_2, KC_3, KC_PEQL,
-    // ----------------------------------------                         ---------------------------------------------
-                                KC_TRNS, KC_TRNS,                       KC_NO, KC_TRNS
+    // Numpad layer, from layer 1--------------                                     ---------------------------------------------
+    KC_TRNS, KC_NO, KC_NO, KC_PPLS, KC_PMNS,                                        LSFT(KC_0), KC_7, KC_8, KC_9, TD(TD_BSPACE),
+    // ----------------------------------------                                     ---------------------------------------------
+    KC_TRNS, KC_NO, KC_NO, KC_PSLS, KC_PAST,                                        KC_PERC, KC_4, KC_5, KC_6, KC_ENT,
+    // ----------------------------------------                                     ---------------------------------------------
+    KC_LSFT, KC_LCTL, KC_LGUI, KC_LALT, KC_TRNS,                                    KC_0, KC_1, KC_2, KC_3, KC_PEQL,
+    // ----------------------------------------                                     ---------------------------------------------
+                                KC_TRNS, KC_TRNS,                                   KC_NO, KC_TRNS
     ),
 
     [_NAV] = LAYOUT(
-    // Navigation layer, from base layer 0-----                         --------------------------------------------
-    TD(TD_ESC_TM), KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                  TD(TD_HOME_P), TD(TD_PREV_T), TD(TD_NEXT_T), TD(TD_END_N), TD(TD_BSPACE),
-    // ----------------------------------------                         --------------------------------------------
-    TD(TD_APP_TAB), KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                 TD(TD_LEFT_SKIP), KC_DOWN, KC_UP, TD(TD_RIGHT_SKIP), KC_ENT,
-    // ----------------------------------------                         --------------------------------------------
-    KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),         KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
-    // ----------------------------------------                         --------------------------------------------
-                            KC_TRNS, KC_TRNS,                           KC_BTN1, TD(TD_OSM_SCAW)
+    // Navigation layer, from base layer 0-----                                     --------------------------------------------
+    TD(TD_ESC_TM), KC_WH_L, KC_MS_U, KC_WH_R, KC_WH_U,                              TD(TD_HOME_P), TD(TD_PREV_T), TD(TD_NEXT_T), TD(TD_END_N), TD(TD_BSPACE),
+    // ----------------------------------------                                     --------------------------------------------
+    TD(TD_APP_TAB), KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                             TD(TD_LEFT_SKIP), KC_DOWN, KC_UP, TD(TD_RIGHT_SKIP), KC_ENT,
+    // ----------------------------------------                                     --------------------------------------------
+    KC_BTN2, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), TD(TD_DELETE),                     KC_ACL0, KC_ACL1, KC_ACL2, KC_PGDN, KC_PGUP,
+    // ----------------------------------------                                     --------------------------------------------
+                            KC_TRNS, KC_TRNS,                                       KC_BTN1, TD(TD_OSM_SCAW)
     ),
 
-
     [4] = LAYOUT(
-    // Reset layer, from layer 3---------------                         --------------------------------------------
-    QK_BOOTLOADER, KC_Q, KC_NO, KC_NO, KC_NO,                           KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-    // ----------------------------------------                         ---------------------------------------------
-    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-    // ----------------------------------------                         ---------------------------------------------
-    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                  KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-    // ----------------------------------------                         ---------------------------------------------
-                                TO(_QWERTY), KC_NO,                           KC_NO, KC_NO
-
+    // Reset layer, from layer 3---------------                                     --------------------------------------------
+    QK_BOOTLOADER, KC_Q, KC_NO, KC_NO, KC_NO,                                       KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    // ----------------------------------------                                     ---------------------------------------------
+    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                              KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    // ----------------------------------------                                     ---------------------------------------------
+    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                              KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    // ----------------------------------------                                     ---------------------------------------------
+                                TO(_QWERTY), KC_NO,                                 KC_NO, KC_NO
     ),
 };
 
@@ -535,6 +535,7 @@ void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
             unregister_mods(MOD_BIT(KC_LGUI)); // for a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         default:
+
             break;
   }
    guitap_state.state = TD_NONE;
@@ -547,7 +548,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record){
     if(record->event.pressed){
         switch(keycode){
             case M_QUES:
-            SEND_STRING("+ and ?");
+            send_unicode_string("?");
             return false;
             break;
         default:
