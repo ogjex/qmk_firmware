@@ -21,13 +21,13 @@ Backlog catalog:
 
 *D fix Danish special chars for keyboard
 
-- create DK custom key codes for stronger readability of layout _SYMB
-
 *D fix left and right skip arrow keys
 
 *D add modtap for space ands shift
 
 *D kc_no currently sends m_ques macro
+
+- create DK custom key codes for stronger readability of layout _SYMB
 
 - remove double hold gui from B142
 
