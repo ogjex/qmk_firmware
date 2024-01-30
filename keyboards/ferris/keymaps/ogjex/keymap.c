@@ -2,11 +2,7 @@
 #include "keymap.h"
 
 #include "features/tapdance.h"
-
-enum {
-    M_QUES = SAFE_RANGE
-};
-uint16_t key_timer;
+#include "features/macros.h"
 
 // define the various layers
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -65,23 +61,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 TO(_QWERTY), KC_NO,                                 KC_NO, KC_NO
     ),
 };
-
-
-// Defining macros on user input level
-bool process_record_user(uint16_t keycode, keyrecord_t *record){
-    // define all macros to launch when keys are pressed (but not released)
-    if(record->event.pressed){
-        switch(keycode){
-            case M_QUES:
-            send_unicode_string("?");
-            return false;
-            break;
-        default:
-            break;
-        }
-    }
-    return true;
-}
 
 // commented for troubleshoot reasons
 /* Defining all macros for oneshot layers

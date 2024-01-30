@@ -6,8 +6,14 @@
 
 // Add any other necessary includes here
 
+// Declare variables related to macros
+enum {
+    M_QUES = SAFE_RANGE
+};
+
+//uint16_t key_timer;
+
 // Declare functions related to macros
-void custom_macro1(void);
-void custom_macro2(void);
+bool process_record_user(uint16_t keycode, keyrecord_t *record);
 
 #endif // MACROS_H
