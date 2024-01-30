@@ -1,7 +1,5 @@
 2024 update:
-
-Unicode seems to be needed.
-
+keyboard is now refactored and in master status
 
 ______________________________________________________________________________
 Reading guide:
@@ -19,6 +17,8 @@ _______________________________________________________________________________
 
 Backlog catalog:
 
+- find out how other keyboards can reuse code
+
 *D fix Danish special chars for keyboard
 
 *D fix left and right skip arrow keys
@@ -31,7 +31,7 @@ Backlog catalog:
 
 - remove double hold gui from B142
 
-- add gui key unregister somewhere
+- add gui key unregister somewhere, maybe W?
 
 - add double hold for B142 ctrl+shift and triple hold for ctrl+shift+alt
 
@@ -49,8 +49,13 @@ Backlog catalog:
 
 - add macro for capital letter after .
 
+- find out how to do a tapdance in oneshot layer
+    - test using held oneshot modifier
+
 - add macro for (), [], {} when double tapped
 
 - add macro for `, `` and ```, ", ' when double and/or triple tapped
 
-- refactor code into low coupled architecture so it can be shared with other 34 keyboard layouts
+- add macro functions that are called instead of embedding them in tapdance.c
+
+D*- refactor code into low coupled architecture so it can be shared with other 34 keyboard layouts
