@@ -311,7 +311,7 @@ void td_osm_sft_ctl_alt(tap_dance_state_t *state, void *user_data) {
             set_oneshot_mods(MOD_LGUI);
             break;
         case TD_DOUBLE_HOLD:
-            tap_code(KC_LGUI);
+
             break;
 
         default:
@@ -420,6 +420,21 @@ void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
             break;
   }
    guitap_state.state = TD_NONE;
+}
+
+// gui call when holding w
+void w_gui(tap_dance_state_t *state, void *user_data) {
+    tap_state.state = cur_dance(state);
+    switch (tap_state.state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_W);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI));
+            break;
+        default:
+            break;
+    }
 }
 
 // define per key tapping term

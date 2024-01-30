@@ -26,7 +26,8 @@ enum {
     TD_OSM_SCAW,
     TD_LEFT_SKIP,
     TD_RIGHT_SKIP,
-    TD_LRST_GUI
+    TD_LRST_GUI,
+    TD_WGUI
 };
 
 typedef enum {
@@ -68,6 +69,8 @@ void td_right_skip_each_tap(tap_dance_state_t *state, void *user_data);
 void td_right_skip_finished(tap_dance_state_t *state, void *user_data);
 void lrst_gui_finished(tap_dance_state_t *state, void *user_data);
 void lrst_gui_reset(tap_dance_state_t *state, void *user_data);
+void w_gui(tap_dance_state_t *state, void *user_data);
+
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record);
 
 #endif // TAPDANCE_H
