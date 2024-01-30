@@ -3,6 +3,9 @@
 
 #include "features/tapdance.h"
 
+enum {
+    M_QUES = SAFE_RANGE
+};
 uint16_t key_timer;
 
 // define the various layers
