@@ -11,7 +11,7 @@
 #define _SYMB 1
 #define _NMPAD 2
 #define _NAV 3
-
+#define _FKEY 4
 
 
 #endif // KEYMAP_H
