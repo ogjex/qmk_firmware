@@ -1,39 +1,8 @@
 #include "tapdance.h"
 #include "keymap.h"
 
-// Define our tap dance states
-typedef enum {
-    TD_NONE,
-    TD_UNKNOWN,
-    TD_SINGLE_TAP,
-    TD_SINGLE_HOLD,
-    TD_DOUBLE_TAP,
-    TD_DOUBLE_HOLD,
-    TD_DOUBLE_SINGLE_TAP, // Send two single taps
-    TD_TRIPLE_TAP,
-    TD_TRIPLE_HOLD
-} td_state_t;
-
-
-typedef struct {
-    bool is_press_action;
-    bool recording;
-    td_state_t state;
-} td_tap_t;
-
-typedef struct {
-  bool is_press_action;
-  int state;
-} tap;
-
 // create a global instance of the tapdance state type
 static td_tap_t tap_state = {.state = TD_NONE};
-
-// declare functions
-
-td_state_t cur_dance(tap_dance_state_t *state);
-void alt_finished (tap_dance_state_t *state, void *user_data);
-void alt_reset (tap_dance_state_t *state, void *user_data);
 
 
 // -------------------------------------------------------------------------------------
@@ -380,6 +349,13 @@ void td_right_skip_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+/*
+
+typedef struct {
+  bool is_press_action;
+  int state;
+} tap;
+
 // define alttap state for oneshot functions
 static tap alttap_state = {
   .is_press_action = true,
@@ -410,6 +386,7 @@ void alt_reset (tap_dance_state_t *state, void *user_data) {
   alttap_state.state = 0;
 
 }
+*/
 
 // Create an instance of 'td_tap_t' for the 'layer reset and hold gui' tap dance.
 static td_tap_t guitap_state = {
@@ -476,7 +453,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_ESC_TM] = ACTION_TAP_DANCE_FN(td_esc_tm),
     [TD_NEXT_T] = ACTION_TAP_DANCE_FN(td_next_tab),
     [TD_PREV_T] = ACTION_TAP_DANCE_FN(td_prev_tab),
-    [ALT_OSL1]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL,alt_finished, alt_reset),
+    //[ALT_OSL1]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL,alt_finished, alt_reset), // skipped because function is not finished yet
     [TD_OSM_SCAW] = ACTION_TAP_DANCE_FN(td_osm_sft_ctl_alt),
     [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_left_skip_each_tap, td_left_skip_finished, NULL),
     [TD_RIGHT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_right_skip_each_tap, td_right_skip_finished, NULL),
