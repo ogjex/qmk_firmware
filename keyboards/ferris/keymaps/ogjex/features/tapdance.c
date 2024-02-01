@@ -422,15 +422,30 @@ void lrst_gui_reset (tap_dance_state_t *state, void *user_data) {
    guitap_state.state = TD_NONE;
 }
 
-// gui call when holding w
-void w_gui(tap_dance_state_t *state, void *user_data) {
+// close window when holding w
+void w_close(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_W);
             break;
-        case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LGUI));
+        case TD_DOUBLE_HOLD:
+            SEND_STRING(SS_DOWN(X_LCTL) "W" SS_UP(X_LCTL));
+            break;
+        default:
+            break;
+    }
+}
+
+// close window/application when holding q
+void q_close(tap_dance_state_t *state, void *user_data) {
+    tap_state.state = cur_dance(state);
+    switch (tap_state.state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_Q);
+            break;
+        case TD_DOUBLE_HOLD:
+            SEND_STRING(SS_DOWN(X_LALT) SS_TAP(KC_F4) SS_UP(X_LALT));
             break;
         default:
             break;
