@@ -445,7 +445,7 @@ void q_close(tap_dance_state_t *state, void *user_data) {
             tap_code(KC_Q);
             break;
         case TD_DOUBLE_HOLD:
-            SEND_STRING(SS_DOWN(X_LALT) SS_TAP(KC_F4) SS_UP(X_LALT));
+            SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_F4) SS_UP(X_LALT));
             break;
         default:
             break;
