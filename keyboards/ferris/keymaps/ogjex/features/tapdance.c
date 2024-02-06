@@ -327,7 +327,20 @@ void td_left_skip_finished(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_HOLD:
-            SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LCTL));
+            register_code(KC_LCTL);
+            register_code(KC_LEFT);
+            break;
+        default:
+            break;
+    }
+}
+
+void td_left_skip_reset(tap_dance_state_t *state, void *user_data) {
+    tap_state.state = cur_dance(state);
+    switch (tap_state.state) {
+        case TD_SINGLE_HOLD:
+            unregister_code(KC_LCTL);
+            unregister_code(KC_LEFT);
             break;
         default:
             break;
@@ -485,7 +498,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_PREV_T] = ACTION_TAP_DANCE_FN(td_prev_tab),
     //[ALT_OSL1]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL,alt_finished, alt_reset), // skipped because function is not finished yet
     [TD_OSM_SCAW] = ACTION_TAP_DANCE_FN(td_osm_sft_ctl_alt),
-    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_left_skip_each_tap, td_left_skip_finished, NULL),
+    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_left_skip_each_tap, td_left_skip_finished, td_left_skip_reset),
     [TD_RIGHT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_right_skip_each_tap, td_right_skip_finished, NULL),
     [TD_LRST_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lrst_gui_finished, lrst_gui_reset)
 };
