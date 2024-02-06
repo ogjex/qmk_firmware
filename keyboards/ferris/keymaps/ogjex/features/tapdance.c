@@ -308,7 +308,7 @@ void td_osm_sft_ctl_alt(tap_dance_state_t *state, void *user_data) {
             set_oneshot_mods(MOD_LALT);
             break;
         case TD_SINGLE_HOLD:
-            set_oneshot_mods(MOD_LGUI);
+
             break;
         case TD_DOUBLE_HOLD:
 

@@ -29,19 +29,25 @@ Backlog catalog:
 
 - create DK custom key codes for stronger readability of layout _SYMB
 
-- remove double hold gui from B142
+D* remove double hold gui from B142
+    - Done
 
-- add gui key unregister somewhere, maybe W?
+D* add gui key unregister somewhere, maybe W?
+    - already implemented as A141 when Held and released
+
+- add repeat key while held for left and right skip hold
+    - needs to be implemented in function finished() as register_code(KC_LCTL); + register_code(KC_LEFT);
+    - needs to be implemented in a new function reset() as register_code(KC_LCTL); + register_code(KC_LEFT);
 
 - add double hold for B142 ctrl+shift and triple hold for ctrl+shift+alt
 
 - add plus for hold tap dances in _SYMB
 
-- add new layer with F keys and F key tapdances (close window, etc)
+D* add new layer with F keys
 
-*D remove shift from A141 and replace with Windows key
+D* remove shift from A141 and replace with Windows key
 
-*D make a mod tap for A141 layers 1+
+D* make a mod tap for A141 layers 1+
     * set tapping term to very little
     * make sure that the key is actually held on layers 1-4
     * [bug] does not distinguish between tap and hold (hold is called even though it is a tap)
