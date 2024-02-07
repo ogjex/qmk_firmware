@@ -7,7 +7,7 @@ static td_tap_t tap_state = {.state = TD_NONE};
 
 // -------------------------------------------------------------------------------------
 // TAP DANCE INITIALISATION
-// -------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 // initiate handlers to define the types of taps
 
 // general function to define what type of tap to handle
@@ -116,15 +116,12 @@ void td_delete(tap_dance_state_t *state, void *user_data) {
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_DEL);
-
             break;
         case TD_SINGLE_HOLD:
             SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_DEL) SS_UP(X_LCTL));
-
             break;
         case TD_DOUBLE_HOLD:
             SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_END) SS_TAP(X_DEL) SS_UP(X_LSFT) SS_UP(X_END));
-
             break;
         default:
             break;
@@ -327,17 +324,6 @@ void td_left_skip_finished(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_HOLD:
-            SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LCTL));
-            break;
-        default:
-            break;
-    }
-}
-
-/*void td_left_skip_finished(tap_dance_state_t *state, void *user_data) {
-    tap_state.state = cur_dance(state);
-    switch (tap_state.state) {
-        case TD_SINGLE_HOLD:
             register_code(KC_LCTL);
             register_code(KC_LEFT);
             break;
@@ -345,17 +331,27 @@ void td_left_skip_finished(tap_dance_state_t *state, void *user_data) {
             break;
     }
 }
-*/
+
 void td_left_skip_reset(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_HOLD:
-            unregister_code(KC_LCTL);
-            unregister_code(KC_LEFT);
+//          unregister_code(KC_LEFT);
+            SEND_STRING("left skip single reset");
             break;
+        case TD_DOUBLE_HOLD:
+//            unregister_code(KC_LCTL);
+//            unregister_code(KC_LEFT);
+            SEND_STRING("left skip double reset");
+            break;
+
         default:
             break;
     }
+    tap_state.state = TD_NONE;
+    unregister_code(KC_LCTL);
+    unregister_code(KC_LEFT);
+
 }
 
 void td_right_skip_each_tap(tap_dance_state_t *state, void *user_data) {
@@ -366,11 +362,26 @@ void td_right_skip_finished(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_HOLD:
-            SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LCTL));
+            register_code(KC_LCTL);
+            register_code(KC_RIGHT);
             break;
         default:
             break;
     }
+}
+
+
+void td_right_skip_reset(tap_dance_state_t *state, void *user_data) {
+    tap_state.state = cur_dance(state);
+    switch (tap_state.state) {
+        case TD_SINGLE_HOLD:
+            break;
+        default:
+            break;
+    }
+    tap_state.state = TD_NONE;
+    unregister_code(KC_LCTL);
+    unregister_code(KC_RIGHT);
 }
 
 /*
@@ -460,7 +471,6 @@ void w_close(tap_dance_state_t *state, void *user_data) {
             break;
     }
 }
-
 // close window/application when holding q
 void q_close(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
@@ -487,6 +497,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return 150;
         case TD(TD_LEFT_SKIP):
             return 150;
+        case TD(TD_RIGHT_SKIP):
+            return 150;
         default:
             return TAPPING_TERM;
     }
@@ -509,7 +521,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_PREV_T] = ACTION_TAP_DANCE_FN(td_prev_tab),
     //[ALT_OSL1]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL,alt_finished, alt_reset), // skipped because function is not finished yet
     [TD_OSM_SCAW] = ACTION_TAP_DANCE_FN(td_osm_sft_ctl_alt),
-    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_left_skip_each_tap, td_left_skip_finished, NULL),
-    [TD_RIGHT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_right_skip_each_tap, td_right_skip_finished, NULL),
+    [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_left_skip_each_tap, td_left_skip_finished, td_left_skip_reset),
+    [TD_RIGHT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_right_skip_each_tap, td_right_skip_finished, td_right_skip_reset),
     [TD_LRST_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lrst_gui_finished, lrst_gui_reset)
 };

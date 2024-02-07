@@ -49,6 +49,7 @@ typedef struct {
 } td_tap_t;
 
 // Declare functions
+td_state_t cur_dance(tap_dance_state_t *state);
 void safe_reset(tap_dance_state_t *state, void *user_data);
 void td_delete(tap_dance_state_t *state, void *user_data);
 void td_bspace(tap_dance_state_t *state, void *user_data);
@@ -67,10 +68,13 @@ void td_left_skip_each_tap(tap_dance_state_t *state, void *user_data);
 void td_left_skip_finished(tap_dance_state_t *state, void *user_data);
 void td_right_skip_each_tap(tap_dance_state_t *state, void *user_data);
 void td_right_skip_finished(tap_dance_state_t *state, void *user_data);
+void td_right_skip_reset(tap_dance_state_t *state, void *user_data);
 void lrst_gui_finished(tap_dance_state_t *state, void *user_data);
 void lrst_gui_reset(tap_dance_state_t *state, void *user_data);
 void w_gui(tap_dance_state_t *state, void *user_data);
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record);
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record);
+
 
 #endif // TAPDANCE_H
