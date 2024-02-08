@@ -35,13 +35,18 @@ D* remove double hold gui from B142
 D* add gui key unregister somewhere, maybe W?
     - already implemented as A141 when Held and released
 
-- add repeat key while held for left and right skip hold
-    - needs to be implemented in function finished() as register_code(KC_LCTL); + register_code(KC_LEFT);
-    - needs to be implemented in a new function reset() as register_code(KC_LCTL); + register_code(KC_LEFT);
+* add repeat key while held for left and right skip hold
+    - code is not pretty, needs refactor due to code duplication
+    - needs to have separate static variables for all functions to properly call cur_dance in reset function (?)
 
-- add double hold for B142 ctrl+shift and triple hold for ctrl+shift+alt
+- add combo keys:
+    - add combo_keys definition in rules.mk
+    - combo key for enter in _qwerty layer
+    - combo key for backspace _qwerty layer
 
-- add plus for hold tap dances in _SYMB
+D* add double hold for B142 ctrl+shift and triple hold for ctrl+shift+alt
+
+D* add plus for hold tap dances in _SYMB
 
 D* add new layer with F keys
 
