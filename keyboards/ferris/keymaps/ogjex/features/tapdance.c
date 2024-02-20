@@ -308,6 +308,9 @@ void td_osm_sft_ctl_alt(tap_dance_state_t *state, void *user_data) {
             set_oneshot_mods(MOD_BIT(KC_LCTL) | MOD_BIT(KC_LSFT));
             break;
         case TD_DOUBLE_HOLD:
+            set_oneshot_mods(MOD_BIT(KC_LSFT) | MOD_BIT(KC_LALT));
+            break;
+        case TD_TRIPLE_HOLD:
             set_oneshot_mods(MOD_BIT(KC_LCTL) | MOD_BIT(KC_LSFT) | MOD_BIT(KC_LALT));
             break;
         default:
