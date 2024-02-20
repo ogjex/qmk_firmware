@@ -473,15 +473,45 @@ void w_close(tap_dance_state_t *state, void *user_data) {
             break;
     }
 }
-// close window/application when holding q
-void q_close(tap_dance_state_t *state, void *user_data) {
+// close application when holding q
+void td_close_q(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_Q);
             break;
-        case TD_DOUBLE_HOLD:
+        case TD_SINGLE_HOLD:
             SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_F4) SS_UP(X_LALT));
+            break;
+        default:
+            break;
+    }
+}
+
+// close window when holding w
+void td_close_w(tap_dance_state_t *state, void *user_data) {
+    tap_state.state = cur_dance(state);
+    switch (tap_state.state) {
+        case TD_SINGLE_TAP:
+            tap_code(MOD_BIT(KC_RALT) | KC_2);
+            break;
+        case TD_SINGLE_HOLD:
+            SEND_STRING(SS_DOWN(X_LCTL) "w" SS_UP(X_LCTL));
+            break;
+        default:
+            break;
+    }
+}
+
+// rename when holding r
+void td_rename(tap_dance_state_t *state, void *user_data) {
+    tap_state.state = cur_dance(state);
+    switch (tap_state.state) {
+        case TD_SINGLE_TAP:
+            tap_code(MOD_BIT(KC_RALT) | KC_4);
+            break;
+        case TD_SINGLE_HOLD:
+            SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_F2) SS_UP(X_LALT));
             break;
         default:
             break;
@@ -525,5 +555,8 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_OSM_SCAW] = ACTION_TAP_DANCE_FN(td_osm_sft_ctl_alt),
     [TD_LEFT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_left_skip_each_tap, td_left_skip_finished, td_left_skip_reset),
     [TD_RIGHT_SKIP] = ACTION_TAP_DANCE_FN_ADVANCED(td_right_skip_each_tap, td_right_skip_finished, td_right_skip_reset),
-    [TD_LRST_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lrst_gui_finished, lrst_gui_reset)
+    [TD_LRST_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lrst_gui_finished, lrst_gui_reset),
+    [TD_CQ] = ACTION_TAP_DANCE_FN(td_close_q),
+    [TD_CW] = ACTION_TAP_DANCE_FN(td_close_w),
+    [TD_RNM] = ACTION_TAP_DANCE_FN(td_rename)
 };

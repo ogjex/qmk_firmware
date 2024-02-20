@@ -44,7 +44,7 @@ D* add gui key unregister somewhere, maybe W?
     - combo key for enter in _qwerty layer
     - combo key for backspace _qwerty layer
 
-D* add double hold for B142 ctrl+shift and triple hold for ctrl+shift+alt
+D* add hold for  for B142 ctrl+shift and double hold alt+shift and triple hold for ctrl+shift+alt
 
 D* add plus for hold tap dances in _SYMB
 
@@ -57,6 +57,14 @@ D* make a mod tap for A141 layers 1+
     * make sure that the key is actually held on layers 1-4
     * [bug] does not distinguish between tap and hold (hold is called even though it is a tap)
     - layer on is not called correctly (but worked 3 days ago)
+
+- add close window for symbol layer double hold w
+
+- add close app for symbol layer double hold q
+
+- add rename symbol layer double hold r
+
+- add double_single_tap for o
 
 - fix local switch ctrl+tab in VS Code
 

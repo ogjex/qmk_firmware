@@ -19,7 +19,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYMB] = LAYOUT(
     // Signs and symbols layer, from layer 0---                                     ----------------------------------------------
-    TD(TD_ESC_TM), ALGR(KC_2), LSFT(KC_3), ALGR(KC_4), LSFT(KC_4),                  LSFT(KC_6), LSFT(KC_7), KC_NO, KC_SLSH, LSFT(KC_SLSH),
+    TD(TD_CQ), TD(TD_CW), LSFT(KC_3), TD(TD_RNM), LSFT(KC_4),                  LSFT(KC_6), LSFT(KC_7), KC_NO, KC_SLSH, LSFT(KC_SLSH),
     // ----------------------------------------                                     ----------------------------------------------
     KC_EQL, LSFT(KC_EQL), LSFT(KC_2), KC_NUHS, KC_PAST,                             LSFT(KC_1), LSFT(KC_8), LSFT(KC_9), LSFT(KC_MINS), ALGR(KC_EQL),
     // ----------------------------------------                                     ----------------------------------------------

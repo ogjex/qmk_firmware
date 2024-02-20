@@ -27,7 +27,9 @@ enum {
     TD_LEFT_SKIP,
     TD_RIGHT_SKIP,
     TD_LRST_GUI,
-    TD_WGUI
+    TD_CQ,
+    TD_CW,
+    TD_RNM
 };
 
 typedef enum {
@@ -71,8 +73,9 @@ void td_right_skip_finished(tap_dance_state_t *state, void *user_data);
 void td_right_skip_reset(tap_dance_state_t *state, void *user_data);
 void lrst_gui_finished(tap_dance_state_t *state, void *user_data);
 void lrst_gui_reset(tap_dance_state_t *state, void *user_data);
-void w_gui(tap_dance_state_t *state, void *user_data);
-
+void td_close_q(tap_dance_state_t *state, void *user_data);
+void td_close_w(tap_dance_state_t *state, void *user_data);
+void td_rename(tap_dance_state_t *state, void *user_data);
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record);
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record);
 
