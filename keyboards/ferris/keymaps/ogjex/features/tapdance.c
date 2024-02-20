@@ -493,7 +493,7 @@ void td_close_w(tap_dance_state_t *state, void *user_data) {
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
-            tap_code(MOD_BIT(KC_RALT) | KC_2);
+            SEND_STRING(SS_DOWN(X_RALT) "2" SS_UP(X_RALT));
             break;
         case TD_SINGLE_HOLD:
             SEND_STRING(SS_DOWN(X_LCTL) "w" SS_UP(X_LCTL));
@@ -503,15 +503,15 @@ void td_close_w(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-// rename when holding r
 void td_rename(tap_dance_state_t *state, void *user_data) {
+// rename when holding r
     tap_state.state = cur_dance(state);
     switch (tap_state.state) {
         case TD_SINGLE_TAP:
-            tap_code(MOD_BIT(KC_RALT) | KC_4);
+            SEND_STRING(SS_DOWN(X_RALT) "4" SS_UP(X_RALT));
             break;
         case TD_SINGLE_HOLD:
-            SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_F2) SS_UP(X_LALT));
+            SEND_STRING(SS_TAP(X_F2));
             break;
         default:
             break;
