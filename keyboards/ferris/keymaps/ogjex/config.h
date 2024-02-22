@@ -23,6 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 #define QUICK_TAP_TERM 120
 
+#define IGNORE_MOD_TAP_INTERRUPT
+#undef PERMISSIVE_HOLD
+#undef PREVENT_STUCK_MODIFIERS
+
 #undef MOUSEKEY_DELAY
 #define MOUSEKEY_DELAY 5
 #undef MOUSEKEY_INTERVAL
