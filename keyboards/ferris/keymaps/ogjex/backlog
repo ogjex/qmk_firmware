@@ -45,8 +45,6 @@ Backlog catalog:
     * [bug] does not distinguish between tap and hold (hold is called even though it is a tap)
     - layer on is not called correctly (but worked 3 days ago)
 
-- fix local switch ctrl+tab in VS Code
-
 - add macro for capital letter after .
 
 - add macro for (), [], {} when double tapped
