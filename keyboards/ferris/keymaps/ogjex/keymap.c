@@ -10,11 +10,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // Base key input layer--------------------                                     -----------------------------------------------
     KC_Q, KC_W, KC_E, KC_R, KC_T,                                                   KC_Y, KC_U, KC_I, TD(TD_OE_DK), KC_P,
     //-----------------------------------------                                     -----------------------------------------------
-    TD(TD_AA_DK), MT(MOD_LSFT,KC_S), MT(MOD_LSFT,KC_D), MT(MOD_LGUI,KC_F), MT(MOD_LALT,KC_G),   MT(MOD_LALT,KC_H), MT(MOD_LGUI,KC_J), MT(MOD_LCTL,KC_K), MT(MOD_LCTL,KC_L), TD(TD_AE_ENTER),
+    TD(TD_AA_DK), MT(MOD_LSFT,KC_S), MT(MOD_LCTL,KC_D), MT(MOD_LGUI,KC_F), MT(MOD_LALT,KC_G),   MT(MOD_LALT,KC_H), MT(MOD_LGUI,KC_J), MT(MOD_LCTL,KC_K), MT(MOD_LCTL,KC_L), TD(TD_AE_ENTER),
     //-----------------------------------------                                     -----------------------------------------------
     KC_Z, KC_X , KC_C, KC_V, TD(TD_DELETE),                                         KC_B, KC_N, KC_M, KC_COMM, KC_DOT,
     //-----------------------------------------                                     -----------------------------------------------
-                TD(TD_LRST_GUI), MT(MOD_LSFT, KC_SPC),                              OSL(_SYMB), TD(TD_OSM_SCAW)
+                CW_TOGG, MT(MOD_LSFT, KC_SPC),                              OSL(_SYMB), TD(TD_OSM_SCAW)
     ),
 
     [_SYMB] = LAYOUT(
